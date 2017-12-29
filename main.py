@@ -20,7 +20,7 @@ def check_price(productId, lowerLimit):
 
 def scheduler(s):
    s.enter(5, 1, check_price, argument=('57', 0.86,))
-   s.enter(5, 1, check_price, argument=('1', 15600,))
+   s.enter(5, 1, check_price, argument=('1', 14600,))
    s.run()
 
 while(1):
