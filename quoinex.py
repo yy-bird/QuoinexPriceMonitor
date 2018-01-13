@@ -1,14 +1,14 @@
 import requests
 import jwt
-import time
+import time, datetime
 import json
 
 class Quoinex:
     api_base = 'https://api.quoine.com'
 
-    def __init__(self, token_id, secret):
-        self.token_id = token_id
-        self.secret = secret
+    def __init__(self, account):
+        self.token_id = account.token_id
+        self.secret = account.secret
     
     def get_fiat_account_balance(self, currency):
         path = '/fiat_accounts'
@@ -16,17 +16,23 @@ class Quoinex:
         for x in fiat_list:
             if x['currency'] == currency:
                 return x['balance']
-            else:
-                return None
+        return None
 
     def get_crypto_account_balance(self, currency):
         path = '/crypto_accounts'
-        fiat_list = json.loads(self.request(path, is_private = True))
-        for x in fiat_list:
+        crypto_list = json.loads(self.request(path, is_private = True))
+        for x in crypto_list:
             if x['currency'] == currency:
                 return x['balance']
-            else:
-                return None
+        return None
+
+    def check_price(self, productId):
+        resp = self.request('/products/' + productId)
+        data = json.loads(resp)
+        info = {}
+        info['text'] = '{0} - {1} buy: {2}, sell: {3}'.format(datetime.datetime.now().strftime("%I:%M%p"), data['currency_pair_code'], data['market_bid'], data['market_ask'])
+        print(info)
+
 
     def get_token(self, path):
         encoded = jwt.encode({'path':path,'nonce': int(round(time.time() * 1000)), 'token_id': self.token_id}, self.secret, algorithm='HS256')

@@ -1,30 +1,19 @@
 import sched, time
-import requests
-import json
-import datetime
-import jwt
+import requests, json
+import datetime, jwt
 from quoinex import Quoinex
+from account import Account
 
 s = sched.scheduler(time.time, time.sleep)
-apiBase = 'https://api.quoine.com'
-
-def check_price(productId, lowerLimit):
-    r = requests.get(apiBase + '/products/' + productId)
-    data = json.loads(r.text)
-    info = {}
-    info['text'] = '{0} - {1} buy: {2}, sell: {3}'.format(datetime.datetime.now().strftime("%I:%M%p"), data['currency_pair_code'], data['market_bid'], data['market_ask'])
-    print(info)
-    
-    if data['market_ask'] <= lowerLimit:
-        requests.post("https://hooks.slack.com/services/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", data={"payload": json.dumps(info)})
-
+client = Quoinex(Account())
 
 def scheduler(s):
-    s.enter(5, 1, check_price, argument=('57', 1.03,))
+    s.enter(5, 1, client.check_price, argument=('57',))
     s.run()
 
-client = Quoinex(183868, "Y7COWy8gDJmoKAFG7mIn/77pFXPyFXr1u5+Mg/P0me36b/cm4LVKa2LlZcMoqSLMSku6kUZGQWu7OHlQTBOXug==")
 available_fiat_balance = client.get_fiat_account_balance('USD')
 available_crypto_balance = client.get_crypto_account_balance('QASH')
-init_fiat_balance = 35
-target_crypto_balnace = 22 
+
+while 1:
+    print('USD: {0} QASH: {1}'.format(available_fiat_balance, available_crypto_balance))
+    scheduler(s)
