@@ -1,5 +1,4 @@
-import requests
-import jwt
+import requests, jwt
 import time, datetime
 import json
 
@@ -26,21 +25,21 @@ class Quoinex:
                 return x['balance']
         return None
 
-    def get_price(self, productId):
-        resp = self._request('/products/' + productId)
+    def get_products_info(self):
+        resp = self._request('/products')
         return json.loads(resp)
 
-    def get_orderbook(self, productId):
-        resp = self._request("/products/" + productId + "/price_levels")
+    def get_orderbook(self, product):
+        resp = self._request('/products/{0}/price_levels'.format(product.value))
         return json.loads(resp)
 
-    def buy(self, product_id, quantity, order_type='market', price=0):
-        order = self._create_order('buy', product_id, order_type, quantity, price)
+    def buy(self, product, quantity, order_type='market', price=0):
+        order = self._create_order('buy', product.value, order_type, quantity, price)
         resp = self._request("/orders/", method='post', data=order, is_private=True)
         return json.loads(resp)
 
-    def sell(self, product_id, quantity, order_type='market', price=0):
-        order = self._create_order('sell', product_id, order_type, quantity, price)
+    def sell(self, product, quantity, order_type='market', price=0):
+        order = self._create_order('sell', product.value, order_type, quantity, price)
         resp = self._request("/orders/", method='post', data=order, is_private=True)
         return json.loads(resp)
 
@@ -68,6 +67,6 @@ class Quoinex:
             return r.content
         elif method == 'post':
             r = requests.post(self.api_base + path, headers=headers, json=data)
-            return r.content
+            return r.text
         else:
             return 'Invalid Method'
