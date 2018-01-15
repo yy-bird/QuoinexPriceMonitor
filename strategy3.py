@@ -45,10 +45,11 @@ class Strategy3:
             buy_resp = self.client.buy(to_product, amount)
             real_amount1 = float(buy_resp["quantity"])
             real_price = float(buy_resp["price"])
-            mid_buy_amount = math.floor(amount/mid_product_ask * 100000000)/100000000
+            mid_buy_amount = math.floor(real_amount1/mid_product_ask * 100000000)/100000000
             mid_resp = self.client.buy(mid_product, mid_buy_amount)
             real_mid_buy_amount = mid_resp["quantity"]
             last_resp = self.client.sell(from_product, mid_buy_amount)
+            print(json.dumps(last_resp))
             real_sell_amount = last_resp["quantity"]
             sell_total = float(last_resp["price"]) * float(last_resp["quantity"])
             print('{0} negative: calc_amount: {1}, real_amount1: {2}, mid_buy_amount: {3}, real_mid_buy_amount: {4}, real_amount3: {5}, earning: {6}'.format(mid_product, amount, real_amount1, mid_buy_amount, real_mid_buy_amount, real_sell_amount, sell_total-real_amount1*real_price))

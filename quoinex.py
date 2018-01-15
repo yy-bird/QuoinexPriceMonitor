@@ -64,7 +64,7 @@ class Quoinex:
 
         if method == 'get':
             r = requests.get(self.api_base + path, headers = headers)
-            return r.content
+            return r.text
         elif method == 'post':
             r = requests.post(self.api_base + path, headers=headers, json=data)
             return r.text
