@@ -1,5 +1,5 @@
 import requests, jwt
-import time, datetime
+import time
 import json
 
 class Quoinex:
@@ -35,13 +35,15 @@ class Quoinex:
 
     def buy(self, product, quantity, order_type='market', price=0):
         order = self._create_order('buy', product.value, order_type, quantity, price)
-        resp = self._request("/orders/", method='post', data=order, is_private=True)
-        return json.loads(resp)
+        resp = json.loads(self._request("/orders/", method='post', data=order, is_private=True))
+        resp["total"] = float(resp["quantity"]) * float(resp["price"])
+        return resp
 
     def sell(self, product, quantity, order_type='market', price=0):
         order = self._create_order('sell', product.value, order_type, quantity, price)
-        resp = self._request("/orders/", method='post', data=order, is_private=True)
-        return json.loads(resp)
+        resp = json.loads(self._request("/orders/", method='post', data=order, is_private=True))
+        resp["total"] = float(resp["quantity"]) * float(resp["price"])
+        return resp
 
     def _create_order(self, side, product_id, order_type, quantity, price):
         order = {}
