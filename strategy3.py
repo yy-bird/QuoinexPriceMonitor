@@ -6,7 +6,7 @@ import json, requests, math
 class Strategy3:
     client = Quoinex(Account())
     products_info = {}
-    base_fund = 150
+    base_fund = 100
 
     def run(self, patterns):
         self._get_products_info()
@@ -20,7 +20,7 @@ class Strategy3:
         to_product_bid = self.products_info[to_product.value]["bid"]
         print('{0} positive: {1}'.format(mid_product.name, 100/from_product_ask*mid_product_bid*to_product_bid))
 
-        if 100/from_product_ask*mid_product_bid*to_product_bid > 100.2:
+        if 100/from_product_ask*mid_product_bid*to_product_bid > 100.1:
             amount = math.floor(self.base_fund/from_product_ask)
             buy_resp = self.client.buy(from_product, amount)
             real_amount1 = float(buy_resp["quantity"])
@@ -40,7 +40,7 @@ class Strategy3:
         to_product_ask = self.products_info[to_product.value]["ask"]
         print('{0} negative: {1}'.format(mid_product.name, 100/to_product_ask/mid_product_ask*from_product_bid))
 
-        if 100/to_product_ask/mid_product_ask*from_product_bid > 100.2:
+        if 100/to_product_ask/mid_product_ask*from_product_bid > 100.1:
             amount = math.floor(self.base_fund/to_product_ask * 100000000)/100000000
             buy_resp = self.client.buy(to_product, amount)
             real_amount1 = float(buy_resp["quantity"])
