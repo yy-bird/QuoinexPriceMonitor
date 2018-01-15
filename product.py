@@ -6,3 +6,5 @@ class Product(Enum):
     QASHETH = 51    
     QASHBTC = 52
     QASHUSD = 57
+    BTCJPY = 72
+    QASHJPY = 50
