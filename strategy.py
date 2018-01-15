@@ -22,13 +22,13 @@ class Strategy:
 
         if ratio > 100.2:
             amount = math.floor(pattern["base_fund"]/from_product_ask)
-            if float(self.client.get_orderbook(pattern["from_product"])["sell_price_levels"][1]) > amount*0.75:
-                from_buy = self.client.buy(pattern["from_product"], amount)
-                mid_sell= self.client.sell(pattern["mid_product"], from_buy["quantity"])
-                to_sell = self.client.sell(pattern["to_product"], mid_sell["total"])
-                print('{0} positive: start: {1}, end: {2}, earning: {3}'.format(pattern["mid_product"].name, from_buy["total"], to_sell["total"], to_sell["total"]-from_buy["total"]))
-                info = {'text': '{0} positive earning: {1}'.format(pattern["mid_product"].name, round(to_sell["total"]-from_buy["total"], 3))}
-                requests.post("https://hooks.slack.com/services/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", data={"payload": json.dumps(info)})
+            # if float(self.client.get_orderbook(pattern["from_product"])["sell_price_levels"][1]) > amount*0.75:
+            from_buy = self.client.buy(pattern["from_product"], amount)
+            mid_sell= self.client.sell(pattern["mid_product"], from_buy["quantity"])
+            to_sell = self.client.sell(pattern["to_product"], mid_sell["total"])
+            print('{0} positive: start: {1}, end: {2}, earning: {3}'.format(pattern["mid_product"].name, from_buy["total"], to_sell["total"], to_sell["total"]-from_buy["total"]))
+            info = {'text': '{0} positive earning: {1}'.format(pattern["mid_product"].name, round(to_sell["total"]-from_buy["total"], 3))}
+            requests.post("https://hooks.slack.com/services/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", data={"payload": json.dumps(info)})
 
     def _negative_trade(self, pattern):
         from_product_bid = self.products_info[pattern["from_product"].value]["bid"]
