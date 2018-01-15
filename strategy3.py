@@ -31,7 +31,7 @@ class Strategy3:
             last_resp = self.client.sell(to_product, price*amount)
             sell_total = float(last_resp["price"]) * float(last_resp["quantity"])
             print('{0} positive: calc_amount: {1}, real_buy_amount: {2}, real_sell_amount: {3}, earning: {4}'.format(mid_product.name, amount, real_amount1, real_amount2, sell_total-real_amount1*buy_price))
-            info = {'text': '{0} positive earning: {1}'.format(mid_product.name, sell_total-self.base_fund)}
+            info = {'text': '{0} positive earning: {1}'.format(mid_product.name, sell_total-real_amount1*buy_price}
             requests.post("https://hooks.slack.com/services/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", data={"payload": json.dumps(info)})
 
     def _negative_trade(self, from_product, mid_product, to_product):
@@ -53,7 +53,7 @@ class Strategy3:
             real_sell_amount = last_resp["quantity"]
             sell_total = float(last_resp["price"]) * float(last_resp["quantity"])
             print('{0} negative: calc_amount: {1}, real_amount1: {2}, mid_buy_amount: {3}, real_mid_buy_amount: {4}, real_amount3: {5}, earning: {6}'.format(mid_product, amount, real_amount1, mid_buy_amount, real_mid_buy_amount, real_sell_amount, sell_total-real_amount1*real_price))
-            info = {'text': '{0} negative earning: {1}'.format(mid_product.name, sell_total-self.base_fund)}
+            info = {'text': '{0} negative earning: {1}'.format(mid_product.name, sell_total-real_amount1*real_price)}
             requests.post("https://hooks.slack.com/services/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", data={"payload": json.dumps(info)})
 
     def _get_products_info(self):
