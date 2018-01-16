@@ -36,14 +36,12 @@ class Quoinex:
     def buy(self, product, quantity, order_type='market', price=0):
         order = self._create_order('buy', product.value, order_type, quantity, price)
         resp = json.loads(self._request("/orders/", method='post', data=order, is_private=True))
-        resp["total"] = float(resp["quantity"]) * float(resp["price"])
-        return resp
+        return {"quantity": float(resp["quantity"]), "price": float(resp["price"]), "total": float(resp["quantity"]) * float(resp["price"])}
 
     def sell(self, product, quantity, order_type='market', price=0):
         order = self._create_order('sell', product.value, order_type, quantity, price)
         resp = json.loads(self._request("/orders/", method='post', data=order, is_private=True))
-        resp["total"] = float(resp["quantity"]) * float(resp["price"])
-        return resp
+        return {"quantity": float(resp["quantity"]), "price": float(resp["price"]), "total": float(resp["quantity"]) * float(resp["price"])}
 
     def _create_order(self, side, product_id, order_type, quantity, price):
         order = {}
