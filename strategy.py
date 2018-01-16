@@ -48,7 +48,10 @@ class Strategy:
 
     def _get_products_info(self):
         products_info = self.client.get_products_info()
+        # print(products_info)
         for x in products_info:
+            if(x['market_ask'] == None or x['market_bid'] == None):
+                continue
             self.products_info[int(x["id"])] = {'ask': float(x['market_ask']), 'bid': float(x['market_bid'])}
     
     def _process_price(self, price):
