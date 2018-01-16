@@ -21,5 +21,5 @@ eth_balance = client.get_crypto_account_balance('ETH')
 while 1:
     print('USD: {0} SGD: {1} QASH: {2} BTC: {3} ETH: {4}'.format(usd_balance, sgd_balance, qash_balance, btc_balance, eth_balance))
     products = [{"from_product": Product.QASHUSD, "mid_product": Product.QASHBTC, "to_product": Product.BTCUSD, "base_fund": 30}]#,
-    #             {"from_product": Product.QASHUSD, "mid_product": Product.QASHETH, "to_product": Product.ETHUSD, "base_fund": 20}]
+                # {"from_product": Product.QASHUSD, "mid_product": Product.QASHETH, "to_product": Product.ETHUSD, "base_fund": 20}]
     scheduler(s, products)
