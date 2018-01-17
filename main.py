@@ -3,8 +3,9 @@ from quoinex import Quoinex
 from account import Account
 from strategy import Strategy
 from product import Product
+from flask import Flask
 
-
+app = Flask(__name__)
 s = sched.scheduler(time.time, time.sleep)
 client = Quoinex(Account())
 strategy = Strategy()
@@ -20,6 +21,10 @@ sgd_balance = client.get_fiat_account_balance('SGD')
 qash_balance = client.get_crypto_account_balance('QASH')
 btc_balance = client.get_crypto_account_balance('BTC')
 eth_balance = client.get_crypto_account_balance('ETH')
+
+@app.route("/")
+def hello():
+    return "Hello World!"
 
 while 1:
     print('USD: {0} SGD: {1} QASH: {2} BTC: {3} ETH: {4}'.format(usd_balance, sgd_balance, qash_balance, btc_balance, eth_balance))
