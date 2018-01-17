@@ -6,12 +6,14 @@ import json, requests, math
 class Strategy:
     client = Quoinex(Account())
     products_info = {}
+    trade_info = {}
 
-    def run(self, patterns):
+    def run(self, patterns, trade_info):
         self._get_products_info()
+        self.trade_info = trade_info
         for pattern in patterns:
             result = self._positive_trade(pattern)
-            result = result or self._negative_trade(pattern)
+            result = result or not pattern["has_negative"] or self._negative_trade(pattern)
             if result:
                 break
 
@@ -24,7 +26,6 @@ class Strategy:
 
         if ratio > 100.5:
             amount = math.floor(pattern["base_fund"]/from_product_ask)
-            # if float(self.client.get_orderbook(pattern["from_product"])["sell_price_levels"][1]) > amount*0.75:
             from_buy = self.client.buy(pattern["from_product"], amount)
             mid_sell= self.client.sell(pattern["mid_product"], from_buy["quantity"])
             to_sell = self.client.sell(pattern["to_product"], mid_sell["total"])
@@ -54,7 +55,6 @@ class Strategy:
 
     def _get_products_info(self):
         products_info = self.client.get_products_info()
-        # print(products_info)
         for x in products_info:
             if(x['market_ask'] == None or x['market_bid'] == None):
                 continue
