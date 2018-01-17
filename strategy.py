@@ -13,6 +13,7 @@ class Strategy:
 
     def run(self, patterns, trade_info):
         os.system("cls")
+        os.system("clear")
         print('USD: {0} SGD: {1} JPY: {2}'.format(self.usd_balance, self.sgd_balance, self.jpy_balance))
         self._get_products_info()
         self.trade_info = trade_info
