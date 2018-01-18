@@ -1,4 +1,4 @@
-import sched, time
+import sched, time, requests
 from quoinex import Quoinex
 from account import Account
 from strategy import Strategy
@@ -8,6 +8,7 @@ s = sched.scheduler(time.time, time.sleep)
 client = Quoinex(Account())
 strategy = Strategy()
 trade_info = {}
+has_exception = False
 
 def scheduler_trade(s):
     product_trade = [{"from_product": Product.QASHUSD, "mid_product": Product.QASHBTC, "to_product": Product.BTCUSD, "base_fund": 20}]
@@ -20,4 +21,11 @@ def scheduler_trade(s):
     s.run()
 
 while 1:
-    scheduler_trade(s)
+    try:
+        scheduler_trade(s)
+        if has_exception:
+            has_exception = False
+            requests.post("https://hooks.slack.com/services/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", data={"payload": "Recovered"})
+    except:
+        requests.post("https://hooks.slack.com/services/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", data={"payload": "Got excption"})
+        has_exception = True
