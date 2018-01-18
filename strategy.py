@@ -34,7 +34,7 @@ class Strategy:
         key = '{0}-{1}-{2}-positive'.format(pattern["from_product"].name, pattern["mid_product"].name, pattern["to_product"].name)       
         print('{0}: {1}'.format(key, ratio))
 
-        if ratio > 100.5:
+        if ratio > 100.1:
             order_book = self.client.get_orderbook(pattern["from_product"])
             amount = self._process_price(pattern["base_fund"]/from_product_ask)
             print(order_book["ask"][1], amount)
@@ -62,7 +62,7 @@ class Strategy:
         key = '{0}-{1}-{2}-negative'.format(pattern["from_product"].name, pattern["mid_product"].name, pattern["to_product"].name)               
         print('{0}: {1}'.format(key, ratio))
 
-        if ratio > 100.5:
+        if ratio > 100.1:
             order_book = self.client.get_orderbook(pattern["from_product"])
             amount = self._process_price(pattern["base_fund"]/to_product_ask)    
             if order_book["bid"][1] < pattern["base_fund"]/order_book["bid"][0]:
