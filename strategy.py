@@ -34,7 +34,7 @@ class Strategy:
         key = '{0}-{1}-{2}-positive'.format(pattern["from_product"].name, pattern["mid_product"].name, pattern["to_product"].name)       
         print('{0}: {1}'.format(key, ratio))
 
-        if ratio > 100.2:
+        if ratio > 100.5:
             amount = math.floor(pattern["base_fund"]/from_product_ask)
             from_buy = self.client.buy(pattern["from_product"], amount)
             mid_sell= self.client.sell(pattern["mid_product"], from_buy["quantity"])
@@ -57,8 +57,8 @@ class Strategy:
         key = '{0}-{1}-{2}-negative'.format(pattern["from_product"].name, pattern["mid_product"].name, pattern["to_product"].name)               
         print('{0}: {1}'.format(key, ratio))
 
-        if ratio > 100.2:
-            amount = self._process_price(pattern["base_fund"]/to_product_ask)
+        if ratio > 100.5:
+            amount = self._process_price(pattern["base_fund"]/to_product_ask)            
             to_buy = self.client.buy(pattern["to_product"], amount)
             mid_buy = self.client.buy(pattern["mid_product"], self._process_price(to_buy["quantity"]/mid_product_ask))
             from_sell = self.client.sell(pattern["from_product"], mid_buy["quantity"])

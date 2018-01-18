@@ -31,7 +31,8 @@ class Quoinex:
 
     def get_orderbook(self, product):
         resp = self._request('/products/{0}/price_levels'.format(product.value))
-        return json.loads(resp)
+        temp = json.loads(resp)
+        return {"ask":temp["buy_price_levels"][0], "bid": temp["sell_price_levels"][0]}
 
     def buy(self, product, quantity, order_type='market', price=0):
         order = self._create_order('buy', product.value, order_type, quantity, price)
