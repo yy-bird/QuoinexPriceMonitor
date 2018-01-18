@@ -35,7 +35,12 @@ class Strategy:
         print('{0}: {1}'.format(key, ratio))
 
         if ratio > 100.5:
-            amount = math.floor(pattern["base_fund"]/from_product_ask)
+            order_book = self.client.get_orderbook(pattern["from_product"])
+            amount = self._process_price(pattern["base_fund"]/from_product_ask)
+            print(order_book["ask"][1], amount)
+            if order_book["ask"][1] < amount:
+                print("ask amount: {0}, to buy amount: {1}".format(order_book["ask"][1], amount))
+                return False 
             from_buy = self.client.buy(pattern["from_product"], amount)
             mid_sell= self.client.sell(pattern["mid_product"], from_buy["quantity"])
             to_sell = self.client.sell(pattern["to_product"], mid_sell["total"])
@@ -58,7 +63,11 @@ class Strategy:
         print('{0}: {1}'.format(key, ratio))
 
         if ratio > 100.5:
-            amount = self._process_price(pattern["base_fund"]/to_product_ask)            
+            order_book = self.client.get_orderbook(pattern["from_product"])
+            amount = self._process_price(pattern["base_fund"]/to_product_ask)    
+            if order_book["bid"][1] < pattern["base_fund"]/order_book["bid"][0]:
+                print("bid amount: {0}, to buy amount: {1}".format(order_book["bid"][1], pattern["base_fund"]/order_book["bid"][0]))
+                return False  
             to_buy = self.client.buy(pattern["to_product"], amount)
             mid_buy = self.client.buy(pattern["mid_product"], self._process_price(to_buy["quantity"]/mid_product_ask))
             from_sell = self.client.sell(pattern["from_product"], mid_buy["quantity"])
