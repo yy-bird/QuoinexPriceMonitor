@@ -13,7 +13,7 @@ has_exception = False
 def scheduler_trade(s):
     product_trade = []
     product_trade.append({"from_product": Product.QASHUSD, "mid_product": Product.QASHBTC, "to_product": Product.BTCUSD, "base_fund": 15})
-    # product_trade.append({"from_product": Product.QASHUSD, "mid_product": Product.QASHETH, "to_product": Product.ETHUSD, "base_fund": 50})
+    product_trade.append({"from_product": Product.QASHUSD, "mid_product": Product.QASHETH, "to_product": Product.ETHUSD, "base_fund": 15})
     # product_trade.append({"from_product": Product.ETHUSD, "mid_product": Product.ETHBTC, "to_product": Product.BTCUSD, "base_fund": 15})
     # product_trade.append({"from_product": Product.QASHJPY, "mid_product": Product.QASHETH, "to_product": Product.ETHJPY, "base_fund": 1500})
     # product_trade.append({"from_product": Product.QASHJPY, "mid_product": Product.QASHBTC, "to_product": Product.BTCJPY, "base_fund": 1500})
