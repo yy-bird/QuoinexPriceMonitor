@@ -19,7 +19,7 @@ class Strategy:
         self.trade_info = trade_info
         for pattern in patterns:
             result = self._positive_trade(pattern)
-            result = result or self._negative_trade(pattern)
+            # result = result or self._negative_trade(pattern)
             if result:
                 break
         self._print_trade_info()
@@ -38,12 +38,10 @@ class Strategy:
             order_book_from = self.client.get_orderbook(pattern["from_product"])
             order_book_to = self.client.get_orderbook(pattern["mid_product"])
             amount = math.floor(pattern["base_fund"]/from_product_ask)
-            print(order_book_from["ask"][1], amount)
-            if order_book_from["ask"][1] < amount or order_book_to["bid"][1] < amount:
+            if self.client.get_orderbook(pattern["from_product"])["ask"][1] < amount or self.client.get_orderbook(pattern["mid_product"])["bid"][1] < amount:
                 print("from ask amount: {0}, to buy amount: {1}".format(order_book_from["ask"][1], amount))
                 print("mid bid amount: {0}, to buy amount: {1}".format(order_book_to["bid"][1], amount))
                 return False 
-
 
             from_buy = self.client.buy(pattern["from_product"], amount)
             mid_sell= self.client.sell(pattern["mid_product"], from_buy["quantity"])
