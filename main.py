@@ -26,8 +26,8 @@ while 1:
         scheduler_trade(s)
         if has_exception:
             has_exception = False
-            requests.post("https://hooks.slack.com/services/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", data={"payload": {"text":"Recovered"}})
+            # requests.post("https://hooks.slack.com/services/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", data={"payload": {"text":"Recovered"}})
     except:
         print("exception")
-        requests.post("https://hooks.slack.com/services/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", data={"payload": {"text":"Got excption"}})
+        # requests.post("https://hooks.slack.com/services/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", data={"payload": {"text":"Got excption"}})
         has_exception = True
