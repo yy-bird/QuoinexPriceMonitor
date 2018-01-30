@@ -2,6 +2,7 @@ import requests, jwt
 import time
 import json
 
+
 class Quoinex:
     api_base = 'https://api.quoine.com'
 
