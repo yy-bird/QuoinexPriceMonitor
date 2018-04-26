@@ -39,13 +39,16 @@ class Quoinex:
         order = self._create_order('buy', product.value, order_type, quantity, price)
         content = self._request("/orders/", method='post', data=order, is_private=True)
         resp = json.loads(content)
-        return {"quantity": float(resp["quantity"]), "price": float(resp["price"]), "total": float(resp["quantity"]) * float(resp["price"])}
+        return {"quantity": float(resp["quantity"]), "price": float(resp["price"]), "total": self._process_price(float(resp["quantity"]) * float(resp["price"]))}
 
     def sell(self, product, quantity, order_type='market', price=0):
         order = self._create_order('sell', product.value, order_type, quantity, price)
         content = self._request("/orders/", method='post', data=order, is_private=True)
         resp = json.loads(content)
-        return {"quantity": float(resp["quantity"]), "price": float(resp["price"]), "total": float(resp["quantity"]) * float(resp["price"])}
+        return {"quantity": float(resp["quantity"]), "price": float(resp["price"]), "total": self._process_price(float(resp["quantity"]) * float(resp["price"]))}
+
+    def get_order(self):
+        print(self._request("/executions/me?product_id=57", is_private=True))
 
     def _create_order(self, side, product_id, order_type, quantity, price):
         order = {}
@@ -74,3 +77,6 @@ class Quoinex:
             return r.text
         else:
             return 'Invalid Method'
+
+    def _process_price(self, price):
+        return math.floor(price * 100000000)/100000000

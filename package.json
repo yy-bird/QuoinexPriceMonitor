@@ -1,0 +1,28 @@
+{
+  "name": "quoinexpricemonitor",
+  "version": "1.0.0",
+  "description": "Trade in Quoinex According to Price Changes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yy-bird/QuoinexPriceMonitor.git"
+  },
+  "keywords": [
+    "quoinex",
+    "trade"
+  ],
+  "author": "yy-bird",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yy-bird/QuoinexPriceMonitor/issues"
+  },
+  "homepage": "https://github.com/yy-bird/QuoinexPriceMonitor#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "pusher-js": "^4.2.2",
+    "request": "^2.85.0"
+  }
+}
