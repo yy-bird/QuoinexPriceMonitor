@@ -8,8 +8,42 @@
     <body>
         <div id="content" class="container">
             <div class="row">
-                <div class="col">{{price.buy}}</div>
-                <div class="col">{{price.sell}}</div>
+                <div class="col">
+                    <div class="row mb-3">
+                        <div class="col bg-success text-center">USD: {{account.usd}}</div>
+                        <div class="col bg-info text-center">QASH: {{account.qash}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">Price</div>
+                        <div class="col text-center">Quantity</div>
+                    </div>
+                    <div class="row" v-for="price in reverse(price.sell)">
+                        <div class="col text-center">{{price[0]}}</div>
+                        <div class="col text-center">{{price[1]}}</div>
+                    </div>
+                    <div class="row mb-2 mt-1"></div>
+                    <div class="row" v-for="price in price.buy">
+                        <div class="col text-center">{{price[0]}}</div>
+                        <div class="col text-center">{{price[1]}}</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>Executions</div>
+                    <div class="row">
+                        <div class="col">OrderId</div>
+                        <div class="col">Side</div>
+                        <div class="col">Price</div>
+                        <div class="col">Quantity</div>
+                        <div class="col">Filed</div>
+                    </div>
+                    <div class="row" v-for="order in orders.live">
+                        <div class="col">{{order.id}}</div>
+                        <div class="col">{{order.side}}</div>
+                        <div class="col">{{order.price}}</div>
+                        <div class="col">{{order.quantity}}</div>
+                        <div class="col">{{order.filled_quantity}}</div>
+                    </div>
+                </div>                
             </div>
         </div>
         <script src="/static/js/main.js"></script>        

@@ -14,6 +14,16 @@ app.get('/price', (req, res) => {
     res.send(JSON.stringify(quoinex.price));
 });
 
+app.get('/account', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');  
+    res.send(JSON.stringify(quoinex.account));  
+})
+
+app.get('/orders', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(quoinex.orders));
+})
+
 app.listen(3000, () => console.log("listening on port 3000"));
 
 
